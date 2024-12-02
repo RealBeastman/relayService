@@ -12,7 +12,7 @@ SERVER_HOST = "0.0.0.0"
 message_queue = asyncio.Queue()
 
 # Send message to listener server
-def send_message_to_bot(message):
+def send_message_to_server(message):
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
             client_socket.connect((DOCKER_HOST, PORT))

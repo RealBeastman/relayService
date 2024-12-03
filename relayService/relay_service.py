@@ -37,7 +37,7 @@ async def handle_messenger(reader, writer):
     while True:
         try:
             # Read message from sender
-            data = reader.read(100)
+            data = await reader.read(100) # 100 bytes: Up to
             if not data:
                 break
             message = data.decode()

@@ -28,10 +28,6 @@ async def start_server():
         print(f"Server listening on {SERVER_HOST}:{PORT}")
         await server.serve_forever()
 
-# # Add "listened" message to queue to be processed FIFO
-# async def add_to_queue(message):
-#     await message_queue.put(message)
-
 # Read messages as they are sent
 async def handle_messenger(reader, writer):
     while True:

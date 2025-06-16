@@ -50,6 +50,12 @@ async def process_message_queue():
 
 ---
 
+## License
+
+MIT License
+
+---
+
 ## Author
 
 Joshua Eastman — [contact@joshuaeastman.dev](mailto:contact@joshuaeastman.dev)

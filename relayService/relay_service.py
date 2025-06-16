@@ -21,25 +21,29 @@ def send_message_to_server(message):
     except Exception as e:
         print(f"Error sending message: {str(e)}")
 
-# Add "listened" message to queue to be processed FIFO
-async def add_to_queue(message):
-    await message_queue.put(message)
-
 # Start listener server on defined host and port
-def start_server():
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-        server_socket.bind((SERVER_HOST, PORT))
-        server_socket.listen()
+async def start_server():
+    server = await asyncio.start_server(handle_messenger, SERVER_HOST, PORT)
+    async with server:
         print(f"Server listening on {SERVER_HOST}:{PORT}")
+        await server.serve_forever()
 
-        while True:
-            conn, addr = server_socket.accept()
-            with conn:
-                print(f"Connected through {addr}")
-                data = conn.recv(1024)
-                if not data:
-                    break
-                message = data.decode("utf-8")
-                print(f"Received Message: {message}")
-                asyncio.run(add_to_queue(message))
-                
+# Read messages as they are sent
+async def handle_messenger(reader, writer):
+    while True:
+        try:
+            # Read message from sender
+            data = await reader.read()
+            if not data:
+                break
+            message = data.decode()
+            print(f"Received message: {message}")
+
+            # Place message into queue
+            await message_queue.put(message)
+        except Exception as e:
+            print(f"Error in message handler: {e}")
+            break
+
+    writer.close()
+    await writer.wait_closed()

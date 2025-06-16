@@ -47,3 +47,9 @@ async def process_message_queue():
 ## Installation:
 
 `pip install git+https://github.com/RealBeastman/relayService.git`
+
+---
+
+## Author
+
+Joshua Eastman — [contact@joshuaeastman.dev](mailto:contact@joshuaeastman.dev)
